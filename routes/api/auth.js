@@ -7,6 +7,7 @@ import auth from "../../middlewares/auth.js"
 import User from "../../models/User.js";
 
 const router = express.Router();
+dotenv.config();
 
 
 //@route GET api/auth
