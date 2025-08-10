@@ -6,10 +6,14 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import SectionLayout from './SectionLayout';
+//Redux
+import {Provider} from "react-redux";
+import store from './store.js';
 
 function App() {
   return (
-    <Router>
+    <Provider store={store}>
+      <Router>
       <Navbar /> {/* This is outside Routes now */}
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -19,6 +23,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </Provider>
   );
 }
 
