@@ -1,2 +1,10 @@
+# Node modules for root and client
 node_modules/
+client/node_modules/
+
+# Environment files
 .env
+client/.env
+
+# Build output
+client/build/

@@ -8,7 +8,7 @@ import profile from "./routes/api/profile.js";
 import posts from "./routes/api/posts.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 // Connect Database
 connectDB();
