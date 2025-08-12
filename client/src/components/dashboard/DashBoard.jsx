@@ -1,15 +1,40 @@
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { getCurrentProfile } from '../../actions/profile.js'
+import Spinner from "../layout/Spinner.jsx"
+import { Link } from 'react-router-dom'
 
-const DashBoard = props => {
+const DashBoard = ({ getCurrentProfile, auth: {user}, profile: {profile, loading}}) => {
+
+    useEffect(() => {
+        getCurrentProfile();
+    }, [])
   return (
-    <div>
-      DashBoard
-    </div>
+    loading && profile === null ? <Spinner /> : 
+    <>
+        <h1 className="large text-primary">Dashboard</h1>
+        <p className="lead">
+            <i className="fas fa-user"> Welcome {user && user.name}</i>
+        </p>
+        {profile !== null ? <>has</> : 
+        <>
+            <p>You have not yet setup a profile, Please add some info</p>
+            <Link to={'/create-profile'} className="btn btm-primary my-1"> Create Profile </Link>
+        </>}
+    </>
   )
 }
 
 DashBoard.propTypes = {
-
+    getCurrentProfile: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired
 }
 
-export default DashBoard
+const mapStateToProps = state => ({
+    auth: state.auth,
+    profile: state.profile
+})
+
+export default connect(mapStateToProps, { getCurrentProfile })(DashBoard)
