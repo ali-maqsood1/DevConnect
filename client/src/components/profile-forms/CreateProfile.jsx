@@ -2,7 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile, getCurrentProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile.js';
+
 
 const initialState = {
   company: '',
@@ -19,38 +20,40 @@ const initialState = {
   instagram: ''
 };
 
-const CreateProfile = ({
+const ProfileForm = ({
   profile: { profile, loading },
   createProfile,
   getCurrentProfile
 }) => {
   const [formData, setFormData] = useState(initialState);
-  const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const creatingProfile = useMatch('/create-profile');
+
+  const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!profile) {
-      getCurrentProfile();
-    }
+    // if there is no profile, attempt to fetch one
+    if (!profile) getCurrentProfile();
 
+    // if we finished loading and we do have a profile
+    // then build our profileData
     if (!loading && profile) {
       const profileData = { ...initialState };
       for (const key in profile) {
         if (key in profileData) profileData[key] = profile[key];
       }
-      if (profile.social) {
-        for (const key in profile.social) {
-          if (key in profileData) profileData[key] = profile.social[key];
-        }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
       }
-      if (Array.isArray(profileData.skills)) {
+      // the skills may be an array from our API response
+      if (Array.isArray(profileData.skills))
         profileData.skills = profileData.skills.join(', ');
-      }
+      // set local state with the profileData
       setFormData(profileData);
     }
-  }, [loading, profile, getCurrentProfile]);
+  }, [loading, getCurrentProfile, profile]);
 
   const {
     company,
@@ -70,13 +73,15 @@ const CreateProfile = ({
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const editing = Boolean(profile);
-    createProfile(formData, editing).then(() => {
-      if (!editing) navigate('/dashboard');
-    });
-  };
+  const onSubmit = async (e) => {
+  e.preventDefault();
+  const editing = !!profile;
+
+  const success = await createProfile(formData, editing);
+  if (success && !editing) {
+    navigate('/dashboard'); // redirect only if no errors
+  }
+};
 
   return (
     <section className="container">
@@ -84,13 +89,12 @@ const CreateProfile = ({
         {creatingProfile ? 'Create Your Profile' : 'Edit Your Profile'}
       </h1>
       <p className="lead">
-        <i className="fas fa-user" />{' '}
+        <i className="fas fa-user" />
         {creatingProfile
-          ? "Let's get some information to make your profile"
-          : 'Add some changes to your profile'}
+          ? ` Let's get some information to make your`
+          : ' Add some changes to your profile'}
       </p>
       <small>* = required field</small>
-
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
           <select name="status" value={status} onChange={onChange}>
@@ -108,7 +112,6 @@ const CreateProfile = ({
             Give us an idea of where you are at in your career
           </small>
         </div>
-
         <div className="form-group">
           <input
             type="text"
@@ -121,7 +124,6 @@ const CreateProfile = ({
             Could be your own company or one you work for
           </small>
         </div>
-
         <div className="form-group">
           <input
             type="text"
@@ -134,7 +136,6 @@ const CreateProfile = ({
             Could be your own or a company website
           </small>
         </div>
-
         <div className="form-group">
           <input
             type="text"
@@ -147,7 +148,6 @@ const CreateProfile = ({
             City & state suggested (eg. Boston, MA)
           </small>
         </div>
-
         <div className="form-group">
           <input
             type="text"
@@ -160,7 +160,6 @@ const CreateProfile = ({
             Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
           </small>
         </div>
-
         <div className="form-group">
           <input
             type="text"
@@ -170,13 +169,13 @@ const CreateProfile = ({
             onChange={onChange}
           />
           <small className="form-text">
-            If you want your latest repos and a Github link, include your username
+            If you want your latest repos and a Github link, include your
+            username
           </small>
         </div>
-
         <div className="form-group">
           <textarea
-            placeholder="A short bio of yourself"
+            placeholder="A short bio"
             name="bio"
             value={bio}
             onChange={onChange}
@@ -234,7 +233,7 @@ const CreateProfile = ({
               <i className="fab fa-linkedin fa-2x" />
               <input
                 type="text"
-                placeholder="LinkedIn URL"
+                placeholder="Linkedin URL"
                 name="linkedin"
                 value={linkedin}
                 onChange={onChange}
@@ -263,7 +262,7 @@ const CreateProfile = ({
   );
 };
 
-CreateProfile.propTypes = {
+ProfileForm.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
@@ -274,5 +273,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  CreateProfile
+  ProfileForm
 );

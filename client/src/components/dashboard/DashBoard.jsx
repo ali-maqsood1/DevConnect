@@ -20,7 +20,7 @@ const DashBoard = ({ getCurrentProfile, auth: {user}, profile: {profile, loading
         {profile !== null ? <>has</> : 
         <>
             <p>You have not yet setup a profile, Please add some info</p>
-            <Link to={'/create-profile'} className="btn btm-primary my-1"> Create Profile </Link>
+            <Link to={'/create-profile'} className="btn btn-primary my-1"> Create Profile </Link>
         </>}
     </>
   )
