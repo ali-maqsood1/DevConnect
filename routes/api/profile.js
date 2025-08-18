@@ -220,7 +220,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 router.put('/education', [auth, 
     [
         check('school', 'School is required!').not().isEmpty(),
-        check('Degree', 'Degree name is required!').not().isEmpty(),
+        check('degree', 'Degree name is required!').not().isEmpty(),
         check('fieldofstudy', 'Field of Study is required!').not().isEmpty(),
         check('from', 'From date is required!').not().isEmpty(),
     ]

@@ -9,6 +9,8 @@ import SectionLayout from './SectionLayout';
 import DashBoard from './components/dashboard/DashBoard';
 import CreateProfile from './components/profile-forms/CreateProfile.jsx';
 import EditProfile from './components/profile-forms/EditProfile.jsx';
+import AddExperience from './components/profile-forms/AddExperience.jsx';
+import AddEducation from './components/profile-forms/AddEducation.jsx';
 import PrivateRoute from './components/routing/PrivateRoute';
 //Redux
 import {Provider} from "react-redux";
@@ -57,6 +59,22 @@ function App() {
             element={
               <PrivateRoute>
                 <EditProfile />
+              </PrivateRoute>
+            } 
+          />
+          <Route 
+            path="/add-experience" 
+            element={
+              <PrivateRoute>
+                <AddExperience />
+              </PrivateRoute>
+            } 
+          />
+          <Route 
+            path="/add-education" 
+            element={
+              <PrivateRoute>
+                <AddEducation />
               </PrivateRoute>
             } 
           />
