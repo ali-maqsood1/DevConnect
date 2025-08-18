@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getCurrentProfile } from '../../actions/profile.js'
 import Spinner from "../layout/Spinner.jsx"
+import DashboardActions from './DashBoardActions.js'
 import { Link } from 'react-router-dom'
 
 const DashBoard = ({ getCurrentProfile, auth: {user}, profile: {profile, loading}}) => {
@@ -17,7 +18,10 @@ const DashBoard = ({ getCurrentProfile, auth: {user}, profile: {profile, loading
         <p className="lead">
             <i className="fas fa-user"> Welcome {user && user.name}</i>
         </p>
-        {profile !== null ? <>has</> : 
+        {profile !== null ? 
+        <>
+            <DashboardActions />
+        </> : 
         <>
             <p>You have not yet setup a profile, Please add some info</p>
             <Link to={'/create-profile'} className="btn btn-primary my-1"> Create Profile </Link>

@@ -8,6 +8,7 @@ import Register from './components/auth/Register';
 import SectionLayout from './SectionLayout';
 import DashBoard from './components/dashboard/DashBoard';
 import CreateProfile from './components/profile-forms/CreateProfile.jsx';
+import EditProfile from './components/profile-forms/EditProfile.jsx';
 import PrivateRoute from './components/routing/PrivateRoute';
 //Redux
 import {Provider} from "react-redux";
@@ -48,6 +49,14 @@ function App() {
             element={
               <PrivateRoute>
                 <CreateProfile />
+              </PrivateRoute>
+            } 
+          />
+          <Route 
+            path="/edit-profile" 
+            element={
+              <PrivateRoute>
+                <EditProfile />
               </PrivateRoute>
             } 
           />

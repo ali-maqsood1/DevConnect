@@ -20,7 +20,7 @@ const initialState = {
   instagram: ''
 };
 
-const CreateProfile = ({
+const EditProfile = ({
   profile: { profile, loading },
   createProfile,
   getCurrentProfile
@@ -75,13 +75,15 @@ const CreateProfile = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const editing = !!profile;
+    const editing = !profile;
+    console.log(profile);
+    console.log("Hello World")
 
-    const success = await createProfile(formData, editing);
+    const success = await createProfile(formData, true);
     if (success && !editing) {
-      navigate('/dashboard'); // redirect only if no errors
+        navigate('/dashboard'); 
     }
-  };
+    };
 
   return (
     <section className="container">
@@ -262,7 +264,7 @@ const CreateProfile = ({
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
@@ -273,5 +275,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  CreateProfile
+  EditProfile
 );
