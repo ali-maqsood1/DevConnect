@@ -8,11 +8,8 @@ import User from "../../models/User.js";
 import Post from "../../models/Post.js";
 import axios from "axios";
 
-
 const router = express.Router();
-
 dotenv.config();
-
 
 //@route GET api/profile/me
 //@desc Get current user's profile
