@@ -12,7 +12,7 @@ const DashBoard = ({ getCurrentProfile, deleteAccount, auth: {user}, profile: {p
 
     useEffect(() => {
         getCurrentProfile();
-    }, [])
+    }, [getCurrentProfile])
   return (
     loading && profile === null ? <Spinner /> : 
     <>
