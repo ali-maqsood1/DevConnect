@@ -11,6 +11,7 @@ import CreateProfile from './components/profile-forms/CreateProfile.jsx';
 import EditProfile from './components/profile-forms/EditProfile.jsx';
 import AddExperience from './components/profile-forms/AddExperience.jsx';
 import AddEducation from './components/profile-forms/AddEducation.jsx';
+import Profile from './components/profile/Profile.jsx';
 import Profiles from './components/profiles/Profiles.jsx';
 import PrivateRoute from './components/routing/PrivateRoute';
 //Redux
@@ -40,6 +41,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profiles" element={<Profiles />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route 
             path="/dashboard" 
             element={
