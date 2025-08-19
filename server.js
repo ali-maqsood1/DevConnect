@@ -7,6 +7,7 @@ import auth from "./routes/api/auth.js";
 import profile from "./routes/api/profile.js";
 import posts from "./routes/api/posts.js";
 import path from "path";
+import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -16,7 +17,6 @@ const PORT = process.env.PORT || 5001;
 connectDB();
 
 // Initializing Middleware
-
 app.use(express.json({extended: false}));
 
 
@@ -27,13 +27,15 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
 
-// Serve static assets in production
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('client/build'));
+// Only in production: serve client/build
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    })
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
 app.listen(PORT, () => {
