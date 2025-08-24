@@ -1,11 +1,11 @@
 import './App.css';
 import {useEffect} from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/layout/Navbar';
-import Alert from "./components/layout/Alert.jsx";
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import SectionLayout from './SectionLayout';
 import DashBoard from './components/dashboard/DashBoard';
 import CreateProfile from './components/profile-forms/CreateProfile.jsx';
 import EditProfile from './components/profile-forms/EditProfile.jsx';
@@ -29,18 +29,6 @@ if(localStorage.token){
   setAuthToken(localStorage.token)
 }
 
-function MainLayout() {
-  return (
-    <>
-      <Navbar />
-      <section className="container">
-        <Alert />
-        <Outlet />
-      </section>
-    </>
-  );
-}
-
 function App() {
 
   useEffect(() => {
@@ -50,9 +38,10 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
+      <Navbar /> {/* This is outside Routes now */}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route element={<MainLayout />}>
+        <Route element={<SectionLayout />}>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profiles" element={<Profiles />} />
@@ -114,7 +103,7 @@ function App() {
             } 
           />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
     </Provider>
