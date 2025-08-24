@@ -278,11 +278,12 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 //@access Public
 router.get('/github/:username', async (req, res) => {
   try {
-    const uri = `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`;
-    const headers = { 'user-agent': 'node.js' };
-
+    const uri = `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`;
+    const headers = { 
+    'user-agent': 'node.js',
+    Authorization: `token ${process.env.GITHUB_TOKEN}` 
+    };
     const githubRes = await axios.get(uri, { headers });
-
     res.json(githubRes.data);
   } catch (err) {
     console.error(err.message);
