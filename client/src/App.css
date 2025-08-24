@@ -44,6 +44,14 @@ img {
   margin-bottom: 3rem;
 }
 
+.trademark {
+  margin-top: 20px;
+  padding: 5px 10px;
+  color: #a9a0a0;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
 /* Text Styles*/
 .x-large {
   font-size: 4rem;
